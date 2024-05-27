@@ -5,7 +5,6 @@ import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
-import { getLoginUrl } from "../api/userServics";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -20,19 +19,19 @@ export default function Header() {
         }
     }, []);
 
-    async function signInKakao() {
-        getLoginUrl().then((data) => {
-            const url = new URL(data.loginURL);
-            const newRedirectUrl = new URL("/login", window.location.origin);
-
-            url.searchParams.set("redirect_uri", newRedirectUrl.toString());
-            const newUrl = url.toString();
-
-            console.log("newLocation ", newRedirectUrl.toString());
-            console.log("New Url ", newUrl);
-
-            window.location.href = newUrl;
-        });
+    // 구글 로그인 API -> 로그인 API
+    function signInG() {
+        // googleLogin().then((data) => {
+        //     const req = {
+        //         userName: data.user.displayName,
+        //         userEmail: data.user.email,
+        //     };
+        //     login(req).then((user) => {
+        //         const userJson = JSON.stringify(user);
+        //         localStorage.setItem("user", userJson);
+        //         setUser(user);
+        //     });
+        // });
     }
 
     return (
@@ -41,7 +40,6 @@ export default function Header() {
                 <img
                     src={LogoIcon}
                     width={134}
-                    alt="mypage"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                         if (user == null) navigate("/");
@@ -52,7 +50,7 @@ export default function Header() {
                 <NavWrapper>
                     {user == null && (
                         <>
-                            <Button onClick={signInKakao}>Sign in</Button>
+                            <Button onClick={signInG}>Sign in</Button>
                         </>
                     )}
 
