@@ -3,6 +3,8 @@ name: Vercel Deployment
 on:
     push:
         branches: [main]
+env:
+  CI: false
 
 jobs:
     publish:
