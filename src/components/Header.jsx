@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 // import { googleLogin, login } from "../api/userServics";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
+import { getLoginUrl } from "../api/userServics";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -20,8 +21,25 @@ export default function Header() {
         }
     }, []);
 
+    async function signInKakao() {
+        getLoginUrl().then((data) => {
+            const url = new URL(data.loginURL);
+            const newRedirectUrl = new URL("/login", window.location.origin);
+
+            url.searchParams.set("redirect_uri", newRedirectUrl.toString());
+            const newUrl = url.toString();
+
+            console.log("newLocation ", newRedirectUrl.toString());
+            console.log("New Url ", newUrl);
+            const new_window = window.open(newUrl, "카카오 로그인", "_blank");
+            new_window.onbeforeunload = function () {
+                console.log("CLose");
+            };
+        });
+    }
+
     // 구글 로그인 API -> 로그인 API
-    function signInG() {
+    async function signInG() {
         // googleLogin().then((data) => {
         //     const req = {
         //         userName: data.user.displayName,
@@ -41,6 +59,7 @@ export default function Header() {
                 <img
                     src={LogoIcon}
                     width={134}
+                    alt="mypage"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                         if (user == null) return;
@@ -51,7 +70,7 @@ export default function Header() {
                 <NavWrapper>
                     {user == null && (
                         <>
-                            <Button onClick={signInG}>Sign in</Button>
+                            <Button onClick={signInKakao}>Sign in</Button>
                         </>
                     )}
 
