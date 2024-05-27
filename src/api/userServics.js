@@ -1,5 +1,3 @@
-import { async } from "@firebase/util";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import API from "../axios";
 // import { auth } from "../fbase";
 
@@ -8,6 +6,18 @@ import API from "../axios";
 //   const provider = new GoogleAuthProvider();
 //   return signInWithPopup(auth, provider);
 // };
+
+export const getLoginUrl = async () => {
+    const resp = await API.get("/auth/login-url");
+    console.log("✨ /auth/login-url", resp);
+    return resp.data;
+};
+
+export const getLoginCallback = async (code) => {
+    const resp = await API.get(`/auth/login/oauth2/callback?code=${code}`);
+    console.log("✨ /auth/login/oauth2/callback", resp);
+    return resp.data;
+};
 
 // 로그인 (POST)
 export const login = async (user) => {

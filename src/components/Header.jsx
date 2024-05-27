@@ -3,7 +3,6 @@ import styled from "styled-components";
 import LogoIcon from "../img/Logo_with_desc.svg";
 import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
-// import { googleLogin, login } from "../api/userServics";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
 import { getLoginUrl } from "../api/userServics";
@@ -31,26 +30,9 @@ export default function Header() {
 
             console.log("newLocation ", newRedirectUrl.toString());
             console.log("New Url ", newUrl);
-            const new_window = window.open(newUrl, "카카오 로그인", "_blank");
-            new_window.onbeforeunload = function () {
-                console.log("CLose");
-            };
-        });
-    }
 
-    // 구글 로그인 API -> 로그인 API
-    async function signInG() {
-        // googleLogin().then((data) => {
-        //     const req = {
-        //         userName: data.user.displayName,
-        //         userEmail: data.user.email,
-        //     };
-        //     login(req).then((user) => {
-        //         const userJson = JSON.stringify(user);
-        //         localStorage.setItem("user", userJson);
-        //         setUser(user);
-        //     });
-        // });
+            window.location.href = newUrl;
+        });
     }
 
     return (
