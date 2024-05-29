@@ -11,24 +11,26 @@ import Main from "./page/Main";
 import Note from "./page/Note";
 import Teams from "./page/Teams";
 import Write from "./page/Write";
+import Login from "./page/Login";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <div className="App">
-    <RecoilRoot>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/teams" element={<Teams />} />
+    <div className="App">
+        <RecoilRoot>
+            <BrowserRouter>
+                <Header />
+                <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/teams" element={<Teams />} />
+                    <Route path="/login" element={<Login />} />
 
-          <Route path="/my" element={<Main />} />
-          <Route path="/write" element={<Write />} />
-          <Route path="/note" element={<Note />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </RecoilRoot>
-  </div>
+                    <Route path="/my" element={<Main />} />
+                    <Route path="/write" element={<Write />} />
+                    <Route path="/note" element={<Note />} />
+                </Routes>
+                <Footer />
+            </BrowserRouter>
+        </RecoilRoot>
+    </div>
 );

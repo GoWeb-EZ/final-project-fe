@@ -3,9 +3,9 @@ import styled from "styled-components";
 import LogoIcon from "../img/Logo_with_desc.svg";
 import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
-// import { googleLogin, login } from "../api/userServics";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
+import { getLoginUrl } from "../api/userServics";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -13,26 +13,26 @@ export default function Header() {
 
     // 로그인 상태 유지
     useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (user !== undefined) {
-            setUser(JSON.parse(user));
+        const token = localStorage.getItem("token");
+        if (token !== undefined) {
+            setUser(token);
             console.log("자동 로그인 - " + user);
         }
     }, []);
 
-    // 구글 로그인 API -> 로그인 API
-    function signInG() {
-        // googleLogin().then((data) => {
-        //     const req = {
-        //         userName: data.user.displayName,
-        //         userEmail: data.user.email,
-        //     };
-        //     login(req).then((user) => {
-        //         const userJson = JSON.stringify(user);
-        //         localStorage.setItem("user", userJson);
-        //         setUser(user);
-        //     });
-        // });
+    async function signInKakao() {
+        getLoginUrl().then((data) => {
+            const url = new URL(data.loginURL);
+            const newRedirectUrl = new URL("/login", window.location.origin);
+
+            url.searchParams.set("redirect_uri", newRedirectUrl.toString());
+            const newUrl = url.toString();
+
+            console.log("newLocation ", newRedirectUrl.toString());
+            console.log("New Url ", newUrl);
+
+            window.location.href = newUrl;
+        });
     }
 
     return (
@@ -41,17 +41,18 @@ export default function Header() {
                 <img
                     src={LogoIcon}
                     width={134}
+                    alt="mypage"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                        if (user == null) return;
-                        navigate("/my");
+                        if (user == null) navigate("/");
+                        else navigate("/my");
                     }}
                 />
 
                 <NavWrapper>
                     {user == null && (
                         <>
-                            <Button onClick={signInG}>Sign in</Button>
+                            <Button onClick={signInKakao}>Sign in</Button>
                         </>
                     )}
 
