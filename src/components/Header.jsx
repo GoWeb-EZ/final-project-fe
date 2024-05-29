@@ -13,9 +13,9 @@ export default function Header() {
 
     // 로그인 상태 유지
     useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (user !== undefined) {
-            setUser(JSON.parse(user));
+        const token = localStorage.getItem("token");
+        if (token !== undefined) {
+            setUser(token);
             console.log("자동 로그인 - " + user);
         }
     }, []);
@@ -44,8 +44,8 @@ export default function Header() {
                     alt="mypage"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                        if (user == null) return;
-                        navigate("/my");
+                        if (user == null) navigate("/");
+                        else navigate("/my");
                     }}
                 />
 

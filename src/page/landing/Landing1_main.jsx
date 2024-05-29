@@ -10,7 +10,6 @@ import {
     checkIsInViewport,
     useWindowScrollListener,
 } from "../../utils/WindowScroll";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { useInterval } from "../../utils/UseInterval";
 
 export default function Landing1() {

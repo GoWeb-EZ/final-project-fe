@@ -13,8 +13,10 @@ export const getLoginUrl = async () => {
     return resp.data;
 };
 
-export const getLoginCallback = async (code) => {
-    const resp = await API.get(`/auth/login/oauth2/callback?code=${code}`);
+export const getLoginCallback = async (code, redirect_uri) => {
+    const resp = await API.get(
+        `/auth/login/oauth2/callback?code=${code}&redirect_uri=${redirect_uri}`
+    );
     console.log("✨ /auth/login/oauth2/callback", resp);
     return resp.data;
 };
