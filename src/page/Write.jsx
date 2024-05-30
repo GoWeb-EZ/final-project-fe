@@ -5,10 +5,9 @@ import IcSave from "../img/ic_saveP.svg";
 import ImageEditable from "../components/ImageEditable";
 import ModalImage from "../components/modal/ModalImage";
 import ModalResult from "../components/modal/ModalResult";
-import { useRecoilValue } from "recoil";
-import { userState } from "../atom/User";
 import { saveNote } from "../api/noteService";
 import { useNavigate } from "react-router-dom";
+import { createNoteFormData } from "../utils/FormDataConvertor";
 
 export default function Write() {
     const navigate = useNavigate();
@@ -28,25 +27,33 @@ export default function Write() {
     // (3) Save
     const [tags, setTags] = useState([]);
     const contentRef = useRef();
-    const user = useRecoilValue(userState);
     function getTags(tagList) {
         setTags(tagList);
     }
 
     const save = () => {
+        const textList = imageList.map((item) => item.text);
+        const imgList = imageList.map((item) => item.img);
+
         // userId, noteId, date, contents, tags, images(img, text)
         const note = {
-            userID: user.userID,
-            date: date,
-            tags: tags,
+            title: "",
             content: contentRef.current.value,
-            images: imageList,
+            tags: tags,
+            imageTexts: textList,
+            createdAt: date,
         };
 
-        saveNote(note).then((resp) => {
-            console.log("write - " + resp.data);
-            navigate("/my");
-        });
+        const requestBody = createNoteFormData(note, imgList, textList);
+
+        saveNote(requestBody)
+            .then((resp) => {
+                console.log("write - " + resp);
+                // navigate("/my");
+            })
+            .catch((err) => {
+                console.error("write - " + err);
+            });
     };
 
     // Modal(Editable)
@@ -107,6 +114,7 @@ export default function Write() {
                     <SaveBox onClick={save}>
                         save
                         <img
+                            alt="save"
                             src={IcSave}
                             style={{ width: "18px", margin: "5px 2px" }}
                         />
