@@ -18,7 +18,6 @@ export default function Login() {
 
         // 로그인 콜백 API 호출
         getLoginCallback(code, redirect_uri).then((data) => {
-            console.log(">>", data);
             // 성공 시, LocalStorage에 토큰 저장 후
             // 노트 홈으로 이동
 

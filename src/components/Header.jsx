@@ -5,8 +5,8 @@ import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
-import { getLoginUrl } from "../api/userServics";
 
+const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
 export default function Header() {
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
@@ -21,18 +21,14 @@ export default function Header() {
     }, []);
 
     async function signInKakao() {
-        getLoginUrl().then((data) => {
-            const url = new URL(data.loginURL);
-            const newRedirectUrl = new URL("/login", window.location.origin);
+        const redirectUrl = new URL("/login", window.location.origin);
+        const kakaoAuthUrl = new URL(`https://kauth.kakao.com/oauth/authorize`);
 
-            url.searchParams.set("redirect_uri", newRedirectUrl.toString());
-            const newUrl = url.toString();
+        kakaoAuthUrl.searchParams.set("response_type", "code");
+        kakaoAuthUrl.searchParams.set("client_id", KAKAO_CLIENT_ID);
+        kakaoAuthUrl.searchParams.set("redirect_uri", redirectUrl.toString());
 
-            console.log("newLocation ", newRedirectUrl.toString());
-            console.log("New Url ", newUrl);
-
-            window.location.href = newUrl;
-        });
+        window.location.href = kakaoAuthUrl.toString();
     }
 
     return (
@@ -41,8 +37,8 @@ export default function Header() {
                 <img
                     src={LogoIcon}
                     width={134}
-                    alt="mypage"
                     style={{ cursor: "pointer" }}
+                    alt="mypage"
                     onClick={() => {
                         if (user == null) navigate("/");
                         else navigate("/my");
