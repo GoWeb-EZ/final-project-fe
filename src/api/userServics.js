@@ -1,38 +1,10 @@
 import API from "../axios";
-// import { auth } from "../fbase";
-
-// 구글 로그인
-// export const googleLogin = async () => {
-//   const provider = new GoogleAuthProvider();
-//   return signInWithPopup(auth, provider);
-// };
-
-// export const getLoginUrl = async () => {
-//     const resp = await API.get("/auth/login-url");
-//     console.log("✨ /auth/login-url", resp);
-//     return resp.data;
-// };
 
 export const getLoginCallback = async (code, redirect_uri) => {
     const resp = await API.get(
         `/auth/login/oauth2/callback?code=${code}&redirect_uri=${redirect_uri}`
     );
-    console.log("✨ /auth/login/oauth2/callback", resp);
-    return resp.data;
-};
-
-// 로그인 (POST)
-export const login = async (user) => {
-    const resp = await API.post("/user/login", JSON.stringify(user));
-
-    if (resp.data.isSuccess) {
-        const user = {
-            userName: resp.data.result.userName,
-            userID: resp.data.result.userID,
-        };
-
-        return user;
-    }
+    return resp;
 };
 
 // 노트 조회하기 (GET)

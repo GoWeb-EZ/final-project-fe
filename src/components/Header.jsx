@@ -38,6 +38,7 @@ export default function Header() {
                     src={LogoIcon}
                     width={134}
                     style={{ cursor: "pointer" }}
+                    alt="mypage"
                     onClick={() => {
                         if (user == null) navigate("/");
                         else navigate("/my");
