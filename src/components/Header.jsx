@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
 
+const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
 export default function Header() {
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
@@ -19,19 +20,15 @@ export default function Header() {
         }
     }, []);
 
-    // 구글 로그인 API -> 로그인 API
-    function signInG() {
-        // googleLogin().then((data) => {
-        //     const req = {
-        //         userName: data.user.displayName,
-        //         userEmail: data.user.email,
-        //     };
-        //     login(req).then((user) => {
-        //         const userJson = JSON.stringify(user);
-        //         localStorage.setItem("user", userJson);
-        //         setUser(user);
-        //     });
-        // });
+    async function signInKakao() {
+        const redirectUrl = new URL("/login", window.location.origin);
+        const kakaoAuthUrl = new URL(`https://kauth.kakao.com/oauth/authorize`);
+
+        kakaoAuthUrl.searchParams.set("response_type", "code");
+        kakaoAuthUrl.searchParams.set("client_id", KAKAO_CLIENT_ID);
+        kakaoAuthUrl.searchParams.set("redirect_uri", redirectUrl.toString());
+
+        window.location.href = kakaoAuthUrl.toString();
     }
 
     return (
@@ -50,7 +47,7 @@ export default function Header() {
                 <NavWrapper>
                     {user == null && (
                         <>
-                            <Button onClick={signInG}>Sign in</Button>
+                            <Button onClick={signInKakao}>Sign in</Button>
                         </>
                     )}
 

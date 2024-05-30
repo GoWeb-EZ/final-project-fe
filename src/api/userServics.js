@@ -7,11 +7,11 @@ import API from "../axios";
 //   return signInWithPopup(auth, provider);
 // };
 
-export const getLoginUrl = async () => {
-    const resp = await API.get("/auth/login-url");
-    console.log("✨ /auth/login-url", resp);
-    return resp.data;
-};
+// export const getLoginUrl = async () => {
+//     const resp = await API.get("/auth/login-url");
+//     console.log("✨ /auth/login-url", resp);
+//     return resp.data;
+// };
 
 export const getLoginCallback = async (code, redirect_uri) => {
     const resp = await API.get(
