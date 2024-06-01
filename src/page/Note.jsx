@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getNote } from "../api/userServics";
 import { deleteNote } from "../api/noteService";
-import { userState } from "../atom/User";
 import Image from "../components/Image";
 import ModalImage from "../components/modal/ModalImage";
 import Tags from "../components/Tags";
 import IcRemove from "../img/ic_remove (1).svg";
+import { getNote } from "../api/userServics";
 
 export default function Note() {
     const navigate = useNavigate();
+    const { noteId } = useParams();
 
-    // 전달받은 NoteID
-    const { state } = useLocation();
-    const user = useRecoilValue(userState);
-    console.log(state + " " + user);
-
-    // 노트 상세 조회 API
     const [note, setNote] = useState();
     useEffect(() => {
-        if (user == null) return;
-        getNote(user.userID, state).then((noteO) => {
-            const noteJS = JSON.stringify(noteO);
-            const result = JSON.parse(noteJS);
-            console.log(result.detail);
-            setNote(result.detail);
-        });
-    }, [user]);
+        getNote(noteId)
+            .then((res) => {
+                if (!res.success) {
+                    alert("문제가 발생했습니다. " + res.message);
+                    return;
+                }
+
+                const note = res.result;
+                setNote(note);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, []);
 
     // Modal(Image)
     const [showImg, setShowImg] = useState();
@@ -49,7 +48,7 @@ export default function Note() {
 
     // 노트 삭제 API
     function delNote() {
-        deleteNote(user.userID, state).then((resp) => {
+        deleteNote(noteId).then((resp) => {
             console.log("Note - " + resp);
             navigate("/my");
         });
@@ -71,7 +70,7 @@ export default function Note() {
                                 <Input> {note.content}</Input>
                             </TextBox>
                             <ImageBox>
-                                {note.images.map((item, idx) => {
+                                {note.imageMetaDataList.map((item, idx) => {
                                     return (
                                         <Image
                                             item={item}
