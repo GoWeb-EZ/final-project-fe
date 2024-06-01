@@ -7,6 +7,12 @@ export const getLoginCallback = async (code, redirect_uri) => {
     return resp;
 };
 
+// 토큰 검증
+export const checkToken = async (token) => {
+    const resp = await API.get(`/auth/verify?token=${token}`);
+    return resp;
+};
+
 // 노트 조회하기 (GET)
 export const getNotes = async (userID) => {
     const resp = await API.get("/note/preview");
