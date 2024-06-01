@@ -18,6 +18,7 @@ export default function Header() {
             setUser(token);
             console.log("자동 로그인 - " + user);
         }
+        // eslint-disable-next-line
     }, []);
 
     async function signInKakao() {

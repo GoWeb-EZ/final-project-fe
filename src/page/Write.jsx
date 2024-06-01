@@ -49,7 +49,14 @@ export default function Write() {
         saveNote(requestBody)
             .then((resp) => {
                 console.log("write - " + resp);
-                // navigate("/my");
+                if (resp.success) {
+                    alert(resp.message);
+                    navigate("/my");
+
+                    return;
+                }
+
+                alert(resp.message);
             })
             .catch((err) => {
                 console.error("write - " + err);
