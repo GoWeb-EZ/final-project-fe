@@ -10,8 +10,12 @@ export default function Note({ note }) {
     // 노트 삭제하기 API
     function delNote() {
         deleteNote(note.noteId).then((resp) => {
-            console.log("Note - " + resp);
-            window.location.reload();
+            alert(resp.message);
+
+            if (resp.success) {
+                window.location.reload();
+                return;
+            }
         });
     }
 

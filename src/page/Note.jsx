@@ -49,8 +49,12 @@ export default function Note() {
     // 노트 삭제 API
     function delNote() {
         deleteNote(noteId).then((resp) => {
-            console.log("Note - " + resp);
-            navigate("/my");
+            alert(resp.message);
+
+            if (resp.success) {
+                navigate("/my");
+                return;
+            }
         });
     }
 
