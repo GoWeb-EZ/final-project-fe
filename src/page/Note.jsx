@@ -27,7 +27,7 @@ export default function Note() {
             .catch((err) => {
                 console.error(err);
             });
-    }, []);
+    }, [noteId]);
 
     // Modal(Image)
     const [showImg, setShowImg] = useState();
