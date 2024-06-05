@@ -27,7 +27,7 @@ root.render(
 
                     <Route path="/my" element={<Main />} />
                     <Route path="/write" element={<Write />} />
-                    <Route path="/note" element={<Note />} />
+                    <Route path="/note/:noteId" element={<Note />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>

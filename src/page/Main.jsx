@@ -25,7 +25,7 @@ export default function Main() {
     // 노트 전체 조회하기 API
     useEffect(() => {
         if (user == null) return;
-        // getNoteAPI();
+        getNoteAPI();
     }, [user]);
 
     // 노트 검색하기 API
@@ -45,11 +45,14 @@ export default function Main() {
 
     function getNoteAPI() {
         setEmpty(false);
-        getNotes(user.userID).then((notesO) => {
-            const notesJS = JSON.stringify(notesO);
-            const notes = JSON.parse(notesJS);
+        getNotes(user.userID).then((res) => {
+            if (!res.success) {
+                alert("문제가 발생했습니다. " + res.message);
+                return;
+            }
 
-            setNoteList(notes);
+            const result = res.result;
+            setNoteList(result);
         });
     }
 

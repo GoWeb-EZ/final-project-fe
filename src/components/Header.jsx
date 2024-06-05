@@ -5,6 +5,7 @@ import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
+import { checkToken } from "../api/userServics";
 
 const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
 export default function Header() {
@@ -14,9 +15,18 @@ export default function Header() {
     // 로그인 상태 유지
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token !== undefined) {
-            setUser(token);
-            console.log("자동 로그인 - " + user);
+        if (token) {
+            checkToken(token).then((res) => {
+                if (res.valid) {
+                    setUser(token);
+                    console.log("자동 로그인 성공");
+
+                    return;
+                }
+
+                console.log("자동 로그인 실패");
+                localStorage.removeItem("token");
+            });
         }
         // eslint-disable-next-line
     }, []);
