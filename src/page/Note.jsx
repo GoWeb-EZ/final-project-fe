@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { deleteNote } from "../api/noteService";
+import { getNote, deleteNote } from "../api/noteService";
 import Image from "../components/Image";
 import ModalImage from "../components/modal/ModalImage";
 import Tags from "../components/Tags";
 import IcRemove from "../img/ic_remove (1).svg";
-import { getNote } from "../api/userServics";
 
 export default function Note() {
     const navigate = useNavigate();
@@ -219,46 +218,4 @@ const Input = styled.div`
     &::placeholder {
         color: lightgray;
     }
-`;
-
-const Text = styled.div`
-    position: relative;
-    width: 100%;
-    height: 10%;
-    padding: 0 20px;
-    box-sizing: border-box;
-
-    border: 2px solid #2b234a;
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-`;
-
-const InputText = styled.div`
-    font-family: "NotoSans-Regular";
-    font-size: 18px;
-    color: #2b234a;
-`;
-
-const ButtonP = styled.div`
-    width: 100px;
-    height: 100%;
-
-    background: #2b234a;
-    border: 2px solid #2b234a;
-    box-sizing: border-box;
-    border-radius: 0px 5px 5px 0px;
-
-    font-family: "NotoSans-Bold";
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-
-    position: absolute;
-    right: 0;
-
-    cursor: pointer;
 `;

@@ -1,19 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { searchTag } from "../api/noteService";
-import { getNotes } from "../api/userServics";
+import { getNotes, searchTag } from "../api/noteService";
 import { userState } from "../atom/User";
-import Header from "../components/Header";
 import NewNote from "../components/NewNote";
 import Note from "../components/Note";
 import ImageSearch from "../img/ic_search.svg";
 import ImageCancel from "../img/ic_cancelG.svg";
 
 export default function Main() {
-    const navigate = useNavigate();
-
     const [noteList, setNoteList] = useState([]);
     const user = useRecoilValue(userState);
 
@@ -24,28 +19,18 @@ export default function Main() {
 
     // 노트 전체 조회하기 API
     useEffect(() => {
-        if (user == null) return;
+        if (user === null) return;
         getNoteAPI();
-    }, [user]);
+
+        // eslint-disable-next-line
+    }, []);
 
     // 노트 검색하기 API
     function search() {
         setEmpty(false);
-        searchTag(user.userID, searchWord).then((notesO) => {
-            if (notesO === undefined) return;
+        searchTag(searchWord).then((res) => {
+            console.log(">> res", res);
 
-            const notesJS = JSON.stringify(notesO);
-            const notes = JSON.parse(notesJS);
-
-            setNoteList(notes);
-            setIsSearching(searchWord);
-            setEmpty(notes.length == 0);
-        });
-    }
-
-    function getNoteAPI() {
-        setEmpty(false);
-        getNotes(user.userID).then((res) => {
             if (!res.success) {
                 alert("문제가 발생했습니다. " + res.message);
                 return;
@@ -53,7 +38,31 @@ export default function Main() {
 
             const result = res.result;
             setNoteList(result);
+            setEmpty(res.result.length <= 0);
+            setIsSearching(searchWord);
         });
+    }
+
+    // 노트 조회하기 API
+    function getNoteAPI() {
+        setEmpty(false);
+        getNotes(user.userID).then((res) => {
+            if (!res.success) {
+                setEmpty(true);
+                alert("문제가 발생했습니다. " + res.message);
+                return;
+            }
+
+            const result = res.result;
+            setNoteList(result);
+        });
+    }
+
+    // 노트 조회 초기화
+    function reset() {
+        setIsSearching(null);
+        setSearchWord("");
+        getNoteAPI();
     }
 
     return (
@@ -67,7 +76,7 @@ export default function Main() {
                             value={searchWord}
                             onChange={(e) => setSearchWord(e.target.value)}
                             onKeyDown={(e) => {
-                                if (e.keyCode == 13) search();
+                                if (e.keyCode === 13) search();
                             }}
                         />
                         <SearchImage src={ImageSearch} onClick={search} />
@@ -76,23 +85,19 @@ export default function Main() {
 
                 {isSearching != null && (
                     <>
-                        <SearchResult onClick={() => setIsSearching(null)}>
+                        <SearchResult onClick={reset}>
                             {searchWord}
                         </SearchResult>
                         <SearchImage
                             src={ImageCancel}
                             style={{ width: "14px", marginRight: "15px" }}
-                            onClick={() => {
-                                setIsSearching(null);
-                                setSearchWord("");
-                                getNoteAPI();
-                            }}
+                            onClick={reset}
                         />
                     </>
                 )}
             </SearchWrapper>
             <MemoWrapper>
-                {searchWord.length <= 0 && <NewNote />}
+                {!isSearching && <NewNote />}
                 {noteList.map((note, index) => {
                     return <Note key={index} note={note} />;
                 })}
@@ -163,20 +168,6 @@ const SearchImage = styled.img`
     right: 0;
     margin: auto 0;
     margin-right: 10px;
-    cursor: pointer;
-`;
-
-const Button = styled.div`
-    font-family: "NotoSans-Bold";
-    font-size: 14px;
-    color: #2b234a;
-    background: #ffffff;
-    border: 2px solid #2b234a;
-    border-radius: 10px;
-
-    padding: 5px 25px;
-    margin-top: 10px;
-    align-self: end;
     cursor: pointer;
 `;
 

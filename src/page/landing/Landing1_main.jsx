@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Image from "../../img/MainImage.svg";
 import BackgroundImage from "../../img/background.svg";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/User";
-// import { googleLogin, login } from "../../api/userServics";
 import {
     checkIsInViewport,
     useWindowScrollListener,
@@ -15,7 +14,8 @@ import { useInterval } from "../../utils/UseInterval";
 export default function Landing1() {
     const navigate = useNavigate();
 
-    const [user, setUser] = useRecoilState(userState);
+    const user = useRecoilValue(userState);
+
     function getStart() {
         if (user == null) {
             alert("로그인 후 이용 가능합니다!");
@@ -41,9 +41,10 @@ export default function Landing1() {
 
     // Animtaion: Fade-in
     const viewRef = useRef();
+    const isViewRefUndefined = viewRef.current === undefined;
     useEffect(() => {
         runAnimation();
-    }, [viewRef.current === undefined]);
+    }, [isViewRefUndefined]);
 
     useWindowScrollListener(() => {
         runAnimation();
@@ -101,7 +102,7 @@ export default function Landing1() {
                         </TextThin>
                         <Button onClick={getStart}>Get started</Button>
                     </TextWrapper>
-                    <img src={Image} width={376} className="fade-in" />
+                    <img src={Image} width={376} className="fade-in" alt="" />
                 </Wrapper>
             )}
         </Background>

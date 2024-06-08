@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { getLoginCallback } from "../api/userServics";
+import { getLoginCallback } from "../api/userService";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userState } from "../atom/User";
 
 export default function Login() {
     const navigate = useNavigate();
-    const [user, setUser] = useRecoilState(userState);
+    const setUser = useSetRecoilState(userState);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -26,7 +26,7 @@ export default function Login() {
             window.localStorage.setItem("token", token);
             navigate("/my");
         });
-    }, []);
+    }, [navigate, setUser]);
 
     return <div></div>;
 }
