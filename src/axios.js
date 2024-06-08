@@ -1,7 +1,8 @@
 import axios from "axios";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API = axios.create({
-    baseURL: "https://goweb10be.store/api",
+    baseURL: BASE_URL,
 });
 
 API.interceptors.request.use(

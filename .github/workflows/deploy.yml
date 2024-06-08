@@ -28,10 +28,12 @@ jobs:
                   echo "REACT_APP_KAKAO_CLIENT_ID=$REACT_APP_KAKAO_CLIENT_ID" >> .env
                   echo "REACT_APP_HUGGINGFACE_API_KEY=$REACT_APP_HUGGINGFACE_API_KEY" >> .env
                   echo "REACT_APP_HUGGINGFACE_API_URL=$REACT_APP_HUGGINGFACE_API_URL" >> .env
+                  echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL" >> .env
               env:
                   REACT_APP_KAKAO_CLIENT_ID: ${{secrets.REACT_APP_KAKAO_CLIENT_ID}}
                   REACT_APP_HUGGINGFACE_API_KEY: ${{secrets.REACT_APP_HUGGINGFACE_API_KEY}}
                   REACT_APP_HUGGINGFACE_API_URL: ${{secrets.REACT_APP_HUGGINGFACE_API_URL}}
+                  REACT_APP_BASE_URL: ${{secrets.REACT_APP_BASE_URL}}
 
             - name: Install dependencies
               run: yarn install
