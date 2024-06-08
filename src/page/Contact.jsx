@@ -40,27 +40,41 @@ export default function Contact() {
                 </InputBox>
 
                 <Button onClick={send}>
-                    <img src={IcSend} style={{ width: "18px" }} /> &nbsp; Send
+                    <img src={IcSend} style={{ width: "18px" }} alt="" /> &nbsp;
+                    Send
                 </Button>
 
                 <img
                     src={Divider}
                     style={{ marginTop: "80px", width: "1000px" }}
+                    alt=""
                 />
 
                 <InfoBox>
                     <TextBold>Info</TextBold>
                     <ContactBox>
                         <ContactItem>
-                            <img src={IcPhone} style={{ width: "24px" }} />
+                            <img
+                                src={IcPhone}
+                                style={{ width: "24px" }}
+                                alt=""
+                            />
                             &nbsp; (949) 323-6178
                         </ContactItem>
                         <ContactItem>
-                            <img src={IcEmail} style={{ width: "24px" }} />
+                            <img
+                                src={IcEmail}
+                                style={{ width: "24px" }}
+                                alt=""
+                            />
                             &nbsp; doodling.tti@gmail.com
                         </ContactItem>
                         <ContactItem>
-                            <img src={IcGithub} style={{ width: "24px" }} />
+                            <img
+                                src={IcGithub}
+                                style={{ width: "24px" }}
+                                alt=""
+                            />
                             &nbsp; https://github.com/doodling-TTI/Doodling
                         </ContactItem>
                     </ContactBox>

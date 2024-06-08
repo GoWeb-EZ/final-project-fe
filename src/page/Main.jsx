@@ -19,9 +19,11 @@ export default function Main() {
 
     // 노트 전체 조회하기 API
     useEffect(() => {
-        if (user == null) return;
+        if (user === null) return;
         getNoteAPI();
-    }, [user]);
+
+        // eslint-disable-next-line
+    }, []);
 
     // 노트 검색하기 API
     function search() {
@@ -34,7 +36,7 @@ export default function Main() {
 
             setNoteList(notes);
             setIsSearching(searchWord);
-            setEmpty(notes.length == 0);
+            setEmpty(notes.length === 0);
         });
     }
 
@@ -62,7 +64,7 @@ export default function Main() {
                             value={searchWord}
                             onChange={(e) => setSearchWord(e.target.value)}
                             onKeyDown={(e) => {
-                                if (e.keyCode == 13) search();
+                                if (e.keyCode === 13) search();
                             }}
                         />
                         <SearchImage src={ImageSearch} onClick={search} />
@@ -158,20 +160,6 @@ const SearchImage = styled.img`
     right: 0;
     margin: auto 0;
     margin-right: 10px;
-    cursor: pointer;
-`;
-
-const Button = styled.div`
-    font-family: "NotoSans-Bold";
-    font-size: 14px;
-    color: #2b234a;
-    background: #ffffff;
-    border: 2px solid #2b234a;
-    border-radius: 10px;
-
-    padding: 5px 25px;
-    margin-top: 10px;
-    align-self: end;
     cursor: pointer;
 `;
 
