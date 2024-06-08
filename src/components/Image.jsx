@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 export default function Image(props) {
     const [isHover, setIsHover] = useState(false);
 
-    const image = `http://20.196.96.170:8080/api/image?file_name=${props.item.fileName}`;
+    const image = BASE_URL + `/image?file_name=${props.item.fileName}`;
 
     function showImgModal() {
         props.showImgModal(props.item.text, image);
@@ -58,13 +59,4 @@ const Background = styled.div`
 
     background: rgba(0, 0, 0, 0.6);
     border-radius: 10px;
-`;
-
-const Button = styled.img`
-    width: 14px;
-    height: 14px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 10px;
 `;
