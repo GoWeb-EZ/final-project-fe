@@ -28,14 +28,7 @@ export const deleteNote = async (noteId) => {
 };
 
 // 태그 검색하기 (GET)
-export const searchTag = async (userID, searchWord) => {
-    const resp = await API.get("/tag/search", {
-        params: { userID: userID, searchWord: searchWord },
-    });
-
-    console.log(resp);
-
-    if (resp.data.isSuccess) {
-        return resp.data.result;
-    }
+export const searchTag = async (tag) => {
+    const resp = await API.get(`/note/search?tag=${tag}`);
+    return resp;
 };

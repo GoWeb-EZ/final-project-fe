@@ -28,21 +28,9 @@ export default function Main() {
     // 노트 검색하기 API
     function search() {
         setEmpty(false);
-        searchTag(user.userID, searchWord).then((notesO) => {
-            if (notesO === undefined) return;
+        searchTag(searchWord).then((res) => {
+            console.log(">> res", res);
 
-            const notesJS = JSON.stringify(notesO);
-            const notes = JSON.parse(notesJS);
-
-            setNoteList(notes);
-            setIsSearching(searchWord);
-            setEmpty(notes.length === 0);
-        });
-    }
-
-    function getNoteAPI() {
-        setEmpty(false);
-        getNotes(user.userID).then((res) => {
             if (!res.success) {
                 alert("문제가 발생했습니다. " + res.message);
                 return;
@@ -50,7 +38,31 @@ export default function Main() {
 
             const result = res.result;
             setNoteList(result);
+            setEmpty(res.result.length <= 0);
+            setIsSearching(searchWord);
         });
+    }
+
+    // 노트 조회하기 API
+    function getNoteAPI() {
+        setEmpty(false);
+        getNotes(user.userID).then((res) => {
+            if (!res.success) {
+                setEmpty(true);
+                alert("문제가 발생했습니다. " + res.message);
+                return;
+            }
+
+            const result = res.result;
+            setNoteList(result);
+        });
+    }
+
+    // 노트 조회 초기화
+    function reset() {
+        setIsSearching(null);
+        setSearchWord("");
+        getNoteAPI();
     }
 
     return (
@@ -73,23 +85,19 @@ export default function Main() {
 
                 {isSearching != null && (
                     <>
-                        <SearchResult onClick={() => setIsSearching(null)}>
+                        <SearchResult onClick={reset}>
                             {searchWord}
                         </SearchResult>
                         <SearchImage
                             src={ImageCancel}
                             style={{ width: "14px", marginRight: "15px" }}
-                            onClick={() => {
-                                setIsSearching(null);
-                                setSearchWord("");
-                                getNoteAPI();
-                            }}
+                            onClick={reset}
                         />
                     </>
                 )}
             </SearchWrapper>
             <MemoWrapper>
-                {searchWord.length <= 0 && <NewNote />}
+                {!isSearching && <NewNote />}
                 {noteList.map((note, index) => {
                     return <Note key={index} note={note} />;
                 })}
