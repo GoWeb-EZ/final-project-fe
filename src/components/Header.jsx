@@ -5,7 +5,7 @@ import IcUser from "../img/ic_user.svg";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";
-import { checkToken } from "../api/userServics";
+import { checkToken } from "../api/userService";
 
 const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
 export default function Header() {

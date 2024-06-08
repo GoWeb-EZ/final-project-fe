@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getLoginCallback } from "../api/userServics";
+import { getLoginCallback } from "../api/userService";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom/User";

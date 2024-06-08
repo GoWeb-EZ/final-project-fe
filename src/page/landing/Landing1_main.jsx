@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Image from "../../img/MainImage.svg";
 import BackgroundImage from "../../img/background.svg";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../atom/User";
-// import { googleLogin, login } from "../../api/userServics";
 import {
     checkIsInViewport,
     useWindowScrollListener,

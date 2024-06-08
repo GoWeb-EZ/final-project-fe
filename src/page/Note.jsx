@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { deleteNote } from "../api/noteService";
+import { getNote, deleteNote } from "../api/noteService";
 import Image from "../components/Image";
 import ModalImage from "../components/modal/ModalImage";
 import Tags from "../components/Tags";
 import IcRemove from "../img/ic_remove (1).svg";
-import { getNote } from "../api/userServics";
 
 export default function Note() {
     const navigate = useNavigate();

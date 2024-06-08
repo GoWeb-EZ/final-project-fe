@@ -1,19 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { searchTag } from "../api/noteService";
-import { getNotes } from "../api/userServics";
+import { getNotes, searchTag } from "../api/noteService";
 import { userState } from "../atom/User";
-import Header from "../components/Header";
 import NewNote from "../components/NewNote";
 import Note from "../components/Note";
 import ImageSearch from "../img/ic_search.svg";
 import ImageCancel from "../img/ic_cancelG.svg";
 
 export default function Main() {
-    const navigate = useNavigate();
-
     const [noteList, setNoteList] = useState([]);
     const user = useRecoilValue(userState);
 
